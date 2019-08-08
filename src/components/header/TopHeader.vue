@@ -1,39 +1,40 @@
 <template>
     <div class="header" @click="showMask">
-        <!-- 商品信息 -->
-        <div class="content-wrapper">
-            <div class="avatar">
-                <img :src="seller.avatar">
-            </div>
-            <div class="content">
-                <div class="title">
-                    <div class="brand"></div>
-                    <div class="name">{{seller.name}}</div>
-                </div>
-                <div class="description">
-                    {{seller.description}}/{{seller.deliveryTime}}分钟送达
-                </div>
-                 <div v-if="seller.supports" class="support">
-                    <support-ico :size=2 :type="seller.supports[0].type"></support-ico>
-                    <span class="text">{{seller.supports[0].description}}</span>
-                </div>
-            </div>
-            <div v-if="seller.supports" class="support-count">
-                <span class="count">{{seller.supports.length}}个</span>
-                <i class="icon-keyboard_arrow_right"></i>
-            </div>
-        </div>
-        <!-- 商品公告 -->
-        <div class="bulletin-wrapper">
-            <span class="bulletin-title"></span>
-            <span class="bulletin-text">{{seller.bulletin}}</span>
-            <i class="icon-keyboard_arrow_right"></i>
-        </div>
-        <!-- 背景图 -->
-        <div class="background">
+    <!-- 商品信息 -->
+    <div class="content-wrapper">
+        <div class="avatar">
             <img :src="seller.avatar">
         </div>
+        <div class="content">
+            <div class="title">
+                <div class="brand"></div>
+                <div class="name">{{seller.name}}</div>
+            </div>
+            <div class="description">
+                {{seller.description}}/{{seller.deliveryTime}}分钟送达
+            </div>
+            <div v-if="seller.supports" class="support">
+                <support-ico :size=2 :type="seller.supports[0].type"></support-ico>
+                <span class="text">{{seller.supports[0].description}}</span>
+            </div>
+        </div>
+        <div v-if="seller.supports" class="support-count">
+            <span class="count">{{seller.supports.length}}个</span>
+            <i class="icon-keyboard_arrow_right"></i>
+        </div>
     </div>
+    <!-- 商品公告 -->
+    <div class="bulletin-wrapper">
+        <span class="bulletin-title"></span>
+        <span class="bulletin-text">{{seller.bulletin}}</span>
+        <i class="icon-keyboard_arrow_right"></i>
+    </div>
+    <!-- 背景图 -->
+    <div class="background">
+        <img :src="seller.avatar">
+    </div>
+</div>    
+    
 </template>
 
 <script>
@@ -49,10 +50,14 @@
             }
         },
         methods:{
-            HomeMask(){
+            showMask(){
                 this.HomeMaskComp = this.HomeMaskComp || this.$createHomeMask({
-                    
+                    $props: {
+                        seller : 'seller'
+                    }
                 })
+
+                this.HomeMaskComp.maskShow()
             }
         },
         components: {
