@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import './cube-ui'
 import App from './App.vue'
+import './mask'
+
 // 引入基础样式
 import 'assets/stylus/index.styl'
 

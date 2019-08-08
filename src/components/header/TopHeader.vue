@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div class="header" @click="showMask">
         <!-- 商品信息 -->
         <div class="content-wrapper">
             <div class="avatar">
@@ -14,7 +14,7 @@
                     {{seller.description}}/{{seller.deliveryTime}}分钟送达
                 </div>
                  <div v-if="seller.supports" class="support">
-                    <!-- <support-ico :size=1 :type="seller.supports[0].type"></support-ico> -->
+                    <support-ico :size=2 :type="seller.supports[0].type"></support-ico>
                     <span class="text">{{seller.supports[0].description}}</span>
                 </div>
             </div>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+    import SupportIco from 'components/support-ico/support-ico'
     export default {
         name: 'TopHeader',
         props:{
@@ -46,6 +47,16 @@
                     return {}
                 }
             }
+        },
+        methods:{
+            HomeMask(){
+                this.HomeMaskComp = this.HomeMaskComp || this.$createHomeMask({
+                    
+                })
+            }
+        },
+        components: {
+            SupportIco
         }
     }
 </script>
@@ -59,7 +70,7 @@
     overflow hidden
     color $c-white
     background-color $bgc-header-sm
-    // 商品图标
+    // 商品信息
     .content-wrapper
         position relative
         display flex

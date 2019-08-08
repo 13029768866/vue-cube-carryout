@@ -21,7 +21,8 @@ export default {
     })
   },
   components:{
-    TopHeader
+    TopHeader,
+    HomeMask
   }
 }
 </script>
