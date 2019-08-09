@@ -2,9 +2,11 @@
     <div class="header" @click="showMask">
     <!-- 商品信息 -->
     <div class="content-wrapper">
+        <!-- 店家头像 -->
         <div class="avatar">
             <img :src="seller.avatar">
         </div>
+        <!-- 相关描述 -->
         <div class="content">
             <div class="title">
                 <div class="brand"></div>
@@ -18,6 +20,7 @@
                 <span class="text">{{seller.supports[0].description}}</span>
             </div>
         </div>
+        <!-- 优惠信息数量 -->
         <div v-if="seller.supports" class="support-count">
             <span class="count">{{seller.supports.length}}个</span>
             <i class="icon-keyboard_arrow_right"></i>
@@ -56,7 +59,6 @@
                         seller : 'seller'
                     }
                 })
-
                 this.HomeMaskComp.maskShow()
             }
         },
@@ -81,6 +83,7 @@
         display flex
         align-items center
         padding: 24px 12px 18px 24px
+        // 店家头像
         .avatar
             flex: 0 0 64px
             width: 64px
@@ -89,6 +92,7 @@
                 width 64px
                 height 64px
                 border-radius $radius-xs
+        // 相关描述
         .content
             flex 1
             .title
@@ -117,6 +121,7 @@
                 .text
                     line-height: 12px
             font-size: $fontsize-small-s
+        // 优惠信息数量
         .support-count
             position: absolute
             right: 12px

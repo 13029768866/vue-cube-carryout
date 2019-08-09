@@ -22,42 +22,43 @@
             @scroll= "onScroll"
             :options = slideOptions
          >
-            <cube-slide-item>
-                <goods></goods>
-            </cube-slide-item>
-             <cube-slide-item>
-                <ratings></ratings>
-            </cube-slide-item>           
-             <cube-slide-item>
-                <seller></seller>
-            </cube-slide-item>
+            <cube-slide-item
+                v-for="(tab,idx) in tabs"
+                :key = 'idx'
+            >
+                <component
+                    :is = 'tab.component'
+                    :data = 'tab.data'
+                    ref = 'component'
+                >
+                </component>
+            </cube-slide-item>          
          </cube-slide>
      </div>
   </div>
 </template>
 
 <script>
- import Goods from 'views/goods/Goods'
- import Ratings from 'views/ratings/Ratings'
- import Seller from 'views/seller/Seller'
+
 
 export default {
   name: 'Tab',
-  components:{
-      Goods,
-      Ratings,
-      Seller
+  props:{
+      tabs:{
+          type: Array,
+          default(){
+              return []
+          }
+      },
+      initialIndex:{
+          type: Number,
+          default: 0
+      }
   },
+ 
   data () {
     return {
-      index: 0,
-      tabs: [{
-        label: '商品'
-      }, {
-        label: '评论'
-      }, {
-        label: '商家'
-      }],
+      index: this.initialIndex,
       slideOptions: {
           listenScroll: true,
           probeType: 3,
@@ -66,14 +67,22 @@ export default {
       }
     }
   },
+  mounted(){
+    this.onChange(this.index)
+  },
   methods: {
     onChange(current){
         this.index = current
+        // console.log(current);        
+        // 创建组件实例
+        const component =this.$refs.component[current]
+        component.fetch && component.fetch()
     },
     onScroll(pos){
-        console.log(pos.x);
+        // console.log(pos.x);
         const tabBarWidth = this.$refs.tabBar.$el.clientWidth
-        // 获取slide滚动宽度
+        // 可滚动宽度
+        // console.log(this.$refs.slide)
         const slideWidth = this.$refs.slide.slide.scrollerWidth
         const transform = Math.abs(pos.x) / slideWidth * tabBarWidth
         this.$refs.tabBar.setSliderTransform(transform)
