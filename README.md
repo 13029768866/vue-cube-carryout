@@ -184,7 +184,36 @@ mask类型组件挂载到body
 
 1. 使用组件： cube-tab-bar,cube-slide，动态组件component
 
-2. css
+2. 参数
+
+   ```js
+   tabs:[
+       {
+           label: '商品',
+           component: Goods,
+           data: {
+               seller: this.seller
+           }
+       },
+       {
+           label: '评论',
+           component: Ratings,
+           data: {
+               seller: this.seller
+           }
+       },
+       {
+           label: '商家',
+           component: Seller,
+           data: {
+               seller: this.seller
+           }
+       }
+    ]
+   initiaIndex: 默认展示的页数
+   ```
+
+3. css
 
    ```css
    根据需求修改默认样式
@@ -202,3 +231,62 @@ mask类型组件挂载到body
          flex: 1
          overflow: hidden
    ```
+
+4. js
+
+   ```js
+   1、tab-cube-bar点击切换功能
+   通过cube-tab-bar的v-model修改label完成切换
+   slide组件的initia-index属性完成切换
+   通过index完成联动
+   
+   computed:{
+       tabChange:{
+           get(){
+               return this.tabs[this.index].label
+           },
+           set(newVal){
+               this.index = this.tabs.findIndex(val => {
+                   return val.label === newVal
+               })
+          }
+       }
+   }
+   
+   2、cube-slide滑动，cube-tab跟随
+   监听cube-slide的chane事件，可获取current修改index
+   <cube-slide @change = 'onChange'></cube-slide>
+   
+   methods:{
+       onChange(current){
+           this.index = current
+       }
+   }
+   2.1、优化，滚动时实现tab栏下划线跟随效果
+   监听cube-slide的scroll事件，可获取滚动的实时位置pos(x,y)
+   <cube-slide @scroll = 'onScroll'></cube-slide>
+   methods:{
+       onScroll(current){
+            // 获取tabBar宽度
+           const tabBarWidth = this.$refs.tabBar.$el.clientWidth
+           // 获取slide可滚动宽度
+           // console.log(this.$refs.slide)
+           const slideWidth = this.$refs.slide.slide.scrollerWidth
+           // 根据滚动位置，和上面两个参数计算tabBar位移
+           const transform = Math.abs(pos.x) / slideWidth * tabBarWidth
+           this.$refs.tabBar.setSliderTransform(transform)
+       }
+   }
+   ```
+
+5. 动态组件
+
+   ```js
+    <component
+        :is = 'tab.component'
+        :data = 'tab.data'
+        ref = 'component'
+   >
+   </component>
+   ```
+

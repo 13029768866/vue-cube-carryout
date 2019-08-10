@@ -68,36 +68,43 @@ export default {
     }
   },
   mounted(){
+    // console.log(this.tabs);
+    
     this.onChange(this.index)
   },
   methods: {
+    // slide组件滑动跟随
     onChange(current){
         this.index = current
         // console.log(current);        
-        // 创建组件实例
+        // // 创建组件实例
         const component =this.$refs.component[current]
         component.fetch && component.fetch()
     },
     onScroll(pos){
         // console.log(pos.x);
+        // 获取tabBar宽度
         const tabBarWidth = this.$refs.tabBar.$el.clientWidth
-        // 可滚动宽度
-        // console.log(this.$refs.slide)
-        const slideWidth = this.$refs.slide.slide.scrollerWidth
-        const transform = Math.abs(pos.x) / slideWidth * tabBarWidth
-        this.$refs.tabBar.setSliderTransform(transform)
+        // console.log(tabBarWidth);        
+        // 获取slide可滚动宽度
+        const slideScrollWidth = this.$refs.slide.slide.scrollerWidth
+        // console.log(slideScrollWidth);        
+        // 根据滚动位置，和上面两个参数计算tabBar位移
+        const position = Math.abs(pos.x) / slideScrollWidth * tabBarWidth
+        // 通过setSliderTransform方法设置
+        this.$refs.tabBar.setSliderTransform(position)
     }
   },
   computed:{
       selectedLabel:{
-          get(){
-              return this.tabs[this.index].label
-          },
-          set(newVal){
-              this.index = this.tabs.findIndex((value) => {
-                  return value.label === newVal
-              })
-          }
+         get(){
+             return this.tabs[this.index].label
+         },
+         set(newVal){
+            this.index = this.tabs.findIndex((val) => {                                       
+                 return val.label === newVal
+             })
+         }
       }
   }
 }

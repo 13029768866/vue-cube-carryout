@@ -86,7 +86,7 @@
             fetch(){
                 getGoods().then((goods)=> {                    
                     this.goods = goods.data
-                    console.log(this.goods)
+                    // console.log(this.goods)
                 })
             }
         },
