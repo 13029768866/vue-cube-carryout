@@ -29,6 +29,8 @@ export default {
   mounted(){
     getSeller().then(res => {     
       this.seller = res.data
+      console.log(this.seller);
+      
     })
   },
   computed: {

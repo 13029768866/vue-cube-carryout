@@ -18,8 +18,8 @@
                 </div>
                 <ul v-if="seller.supports" class="supports">
                     <li class="support-item" v-for="(item,index) in seller.supports" :key="item.id">
-                    <support-ico :size=2 :type="seller.supports[index].type"></support-ico>
-                    <span class="text">{{seller.supports[index].description}}</span>
+                    <support-ico :size=2 :type="item.type"></support-ico>
+                    <span class="text">{{item.description}}</span>
                     </li>
                 </ul>
                 <!-- 商家公告 -->

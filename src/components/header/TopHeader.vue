@@ -120,7 +120,7 @@
                     margin-right: 4px
                 .text
                     line-height: 12px
-            font-size: $fontsize-small-s
+                    font-size: $fontsize-small-s
         // 优惠信息数量
         .support-count
             position: absolute
@@ -176,7 +176,6 @@
         height: 100%
         z-index: -1
         filter blur(10px)
-        border 5px solid #000
         img 
             width 100%
             height 100%

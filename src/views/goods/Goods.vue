@@ -36,6 +36,9 @@
                                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                                 </div>
                             </div>
+                              <div class="cart-control-wrapper">
+                                <cart-control :food="food"></cart-control>
+                            </div>
                         </li>
                     </ul>
                 </cube-scroll-nav-panel>
@@ -54,10 +57,12 @@
 <script>
     import { getGoods } from 'api'
     import ShopCart from 'components/shop-cart/ShopCart'
+    import CartControl from 'components/cart-control/CartControl'
     export default {
         name: 'Goods',
         components: {
-            ShopCart
+            ShopCart,
+            CartControl
         },
         props:{
             data:{
@@ -136,6 +141,7 @@
             color: $c-grey
             background: $bgc-aside
         .food-item
+            position relative
             display flex
             margin 18px
             padding-bottom 18px
@@ -180,6 +186,10 @@
                         text-decoration: line-through
                         font-size: $fontsize-small-s
                         color: $color-light-grey
+            .cart-control-wrapper
+                position: absolute
+                right: 0
+                bottom: 12px
     .shop-cart-wrapper
         position absolute
         left 0

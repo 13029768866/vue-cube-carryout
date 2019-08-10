@@ -88,14 +88,13 @@
  @import "~assets/stylus/_vars"
 
 .shopcart
+    height 44px
     .content
         display flex
         background-color $bgc-header-xl
         font-size 0
         color $color-light-grey
         .content-left
-            display flex
-            align-items center
             flex 1
             // 购物车图标
             .logo-wrapper
@@ -122,6 +121,9 @@
                         color: $color-light-grey
             // 价格
             .price
+                display: inline-block
+                vertical-align: top
+                margin-top: 12px
                 line-height: 24px
                 padding-right: 12px
                 border-right: 1px solid rgba(255, 255, 255, 0.1)
@@ -129,6 +131,9 @@
                 font-size: $fontsize-large
             // 配送费
             .desc
+                display: inline-block
+                vertical-align: top
+                margin-top: 12px
                 line-height: 24px
                 font-size: $fontsize-small-s
                 margin-left 12px
@@ -136,7 +141,7 @@
             flex 0 0 105px
             min-width 105px
             .pay
-                line-height 56px
+                line-height 44px
                 text-align center
                 font-weight 700
                 font-size $fontsize-small
