@@ -23,6 +23,7 @@
             }
         },
         methods: {
+            // 增加
             increment(){
                 this.count++                
             },

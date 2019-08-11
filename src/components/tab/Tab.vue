@@ -69,17 +69,16 @@ export default {
   },
   mounted(){
     // console.log(this.tabs);
-    
+    // 应为onChange切换时触发，初始化一次
     this.onChange(this.index)
   },
   methods: {
     // slide组件滑动跟随
     onChange(current){
         this.index = current
-        // console.log(current);        
-        // // 创建组件实例
-        const component =this.$refs.component[current]
-        component.fetch && component.fetch()
+        // 获取组件实例，检测并调用fetch方法
+        const comp = this.$refs.component[current]
+        comp.fetch && comp.fetch()
     },
     onScroll(pos){
         // console.log(pos.x);

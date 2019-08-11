@@ -103,7 +103,7 @@ mask类型组件挂载到body
 3. js
 
    ```js
-   // 星星状态
+   	// 星星状态
        const LENGTH = 5
        const CLS_ON = 'on'
        const CLS_HALF = 'half'
@@ -153,7 +153,7 @@ mask类型组件挂载到body
 
 ## header组件
 
-1. 使用组件: icon , mask
+1. 使用组件: `icon` , `mask`
 
 2. `背景滤镜`：filter blur(10px)
 
@@ -182,7 +182,7 @@ mask类型组件挂载到body
 
 ## tab组件
 
-1. 使用组件： cube-tab-bar,cube-slide，动态组件component
+1. 使用组件： `cube-tab-bar`,`cube-slide`，动态组件`component`
 
 2. 参数
 
@@ -290,3 +290,27 @@ mask类型组件挂载到body
    </component>
    ```
 
+## goods组件
+
+1. 使用组件：`cube-scroll-nav` ,`cube-scroll-nav-panel`,`shop-cart`,`cart-control`
+
+2. 参数： data(动态组件传参)
+
+3. js
+
+   ```js
+   // 1、数据请求
+   // 如果在生命周期中请求，页面加载时三个组件都已加载，会造成性能浪费
+   // 可以在Tab组件切换时发送请求
+   onChange(current){
+           this.index = current
+           // console.log(current);        
+           // 创建组件实例
+           const component =this.$refs.component[current]
+           component.fetch && component.fetch()
+       }
+   // 第一次进入没有切换，需要初始化一下
+   mounted(){
+       this.onChange(this.index)
+   }
+   ```

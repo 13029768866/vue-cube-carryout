@@ -4,7 +4,7 @@
             <!-- 分类侧边栏 -->
             <cube-scroll-nav
                 :side=true
-                :data="goods"
+                :data=" goods"
                 :options="scrollOptions"
                 v-if="goods.length"
             >
@@ -15,6 +15,7 @@
                     :label = 'good.name'
                     :title = 'good.name'
                 >
+                    <!-- 默认插槽 -->
                     <ul>
                         <li
                             v-for="food in good.foods"
@@ -44,6 +45,7 @@
                 </cube-scroll-nav-panel>
             </cube-scroll-nav>
         </div>
+        <!-- 购物车 -->
         <div class="shop-cart-wrapper">
             <shop-cart
                     ref = 'shopCart' 
@@ -76,7 +78,9 @@
             return {
                 goods: [],
                 selecFood: [],
+                // 根据better-scroll配置
                 scrollOptions: {
+                    // 防止点击事件触发两次
                     click: false,
                     directionLockThreshold: 0
                 }
@@ -86,7 +90,7 @@
             fetch(){
                 getGoods().then((goods)=> {                    
                     this.goods = goods.data
-                    // console.log(this.goods)
+                    console.log(this.goods)
                 })
             }
         },
@@ -132,6 +136,7 @@
             background: $c-white
             color: $c-red
         // 对应展示内容区域
+        // 标题
         >>> .cube-scroll-nav-panel-title
             padding-left: 14px
             height: 30px
@@ -190,6 +195,7 @@
                 position: absolute
                 right: 0
                 bottom: 12px
+    // 底部购物车
     .shop-cart-wrapper
         position absolute
         left 0
