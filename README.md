@@ -314,3 +314,51 @@ mask类型组件挂载到body
        this.onChange(this.index)
    }
    ```
+
+### cart-control
+
+1. 使用参数：`food`(遍历的时候传进来的食品信息)
+
+2. css
+
+   ```css
+   <transition name='move'>
+               <!-- 减少按钮 -->
+               <div class="cart-decrement" v-show='this.food.count' @click='decrement'>
+                   <span class="inner icon-remove_circle_outline"></span> 
+               </div>
+   </transition> 
+   
+   .cart-decrement
+           padding 6px
+           opacity 1    
+           .inner   
+               // 必须设置成行内块元素,否则滚动不生效
+               display: inline-block
+               line-height: 24px         
+               font-size: $fontsize-large-xxx
+               color: $c-blue
+               transition: all 0.5s linear
+               transform rotate(0)
+           // move过渡动画        
+           &.move-enter-active, &.move-leave-active
+               transition all 0.5s linear
+               // 外围盒子位移
+           &.move-enter, &.move-leave-active
+               opacity 0
+               transform translate3d(24px,0,0)
+               // 图标翻转
+               .inner
+                   transform rotate(180deg)               
+   ```
+
+3. js
+
+   ```js
+   1、设置边界，减少按钮在food.count < 1时候不显示
+   ```
+
+### shop-cart 与 cart-control联动
+
+1. 
+

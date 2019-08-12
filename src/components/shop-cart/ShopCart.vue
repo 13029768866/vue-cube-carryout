@@ -12,6 +12,10 @@
                             class="icon-shopping_cart"
                             :class="{'highlight': totalCount > 0}"
                         ></i>
+                        <!-- 漂浮总数量 -->
+                        <div class="num" v-show="totalCount > 0">
+                            <bubble :num ='totalCount'></bubble>
+                        </div>
                     </div>
                 </div>
                 <!-- 价格 -->
@@ -30,6 +34,8 @@
 </template>
 
 <script>
+    import Bubble from 'components/bubble/Bubble'
+
     export default {
         name: 'ShopCart',
         props:{   
@@ -50,6 +56,9 @@
                 type: Number,
                 default: 0
             }
+        },
+        components:{
+            Bubble
         },
         computed: {
             // 总价格
@@ -107,6 +116,7 @@
             flex 1
             // 购物车图标
             .logo-wrapper
+                position relative
                 display: inline-block
                 vertical-align: top
                 position: relative
@@ -118,7 +128,7 @@
                 box-sizing: border-box
                 border-radius: 50%
                 background: $bgc-header-xl
-                .logo
+                .logo                              
                     width: 100%
                     height: 100%
                     border-radius: 50%
@@ -132,6 +142,11 @@
                         color: $color-light-grey
                         &.highlight
                             color $c-white
+                // 漂浮总数量
+                .num
+                    position: absolute
+                    top: 0
+                    right: 0
             // 价格
             .price
                 display: inline-block

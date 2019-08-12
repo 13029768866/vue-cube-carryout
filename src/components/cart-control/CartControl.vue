@@ -3,14 +3,18 @@
         <!-- move过渡动画 -->
         <transition name='move'>
             <!-- 减少按钮 -->
-            <div class="cart-decrement" v-show='this.food.count' @click='decrement'>
+            <div class="cart-decrement" v-show='this.food.count' 
+                @click.stop='decrement'
+            >
                 <span class="inner icon-remove_circle_outline"></span> 
             </div>
-        </transition>        
+        </transition> 
         <!-- 食物数量 -->
         <div class="cart-count" v-show="this.food.count">{{this.food.count}}</div>
         <!-- 增加按钮 -->
-        <div class="cart-increment icon-add_circle" @click ='increment'></div>
+        <div class="cart-increment icon-add_circle" 
+            @click.stop ='increment'
+        ></div>
     </div>
 </template>
 
@@ -38,7 +42,7 @@
                 // 如果存在count属性增加，没有添加其count属性，并且val为1                
                !this.food.count? this.$set(this.food,'count',1) :this.food.count++; 
                 // 变化通知购物车
-                this.$emit(EVENT_INCREMENT,event.target)   
+                // this.$emit(EVENT_INCREMENT,event.target)
             },
             // 减少
             decrement(){
@@ -60,7 +64,7 @@
     // 减少按钮
     .cart-decrement
         padding 6px
-        opacity 1
+        opacity 1    
         .inner   
             // 必须设置成行内块元素,否则滚动不生效
             display: inline-block
@@ -69,12 +73,14 @@
             color: $c-blue
             transition: all 0.5s linear
             transform rotate(0)
-        // move过渡动画
+        // move过渡动画        
         &.move-enter-active, &.move-leave-active
             transition all 0.5s linear
+            // 外围盒子位移
         &.move-enter, &.move-leave-active
             opacity 0
             transform translate3d(24px,0,0)
+            // 图标翻转
             .inner
                 transform rotate(180deg)
     // 食物数量
