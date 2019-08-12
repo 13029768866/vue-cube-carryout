@@ -358,9 +358,9 @@ mask类型组件挂载到body
    1、设置边界，减少按钮在food.count < 1时候不显示
    ```
 
-### shop-cart 与 cart-control联动
+### shop-cart 
 
-1. 通过goods组件获取选中选中食物列表
+1. 通过goods组件获取选中选中食物列表完成与cart-control组件联动
 
    ```js
    computed:{
@@ -376,6 +376,84 @@ mask类型组件挂载到body
                    return res
                }
    }
+   ```
+
+2. 参数:`min-price`（起送费用），`delivery-price`（配送费用），`selectedFoods`（选中商品）
+
+3. css
+
+   ```css
+   1、通过food.count控制购物车高亮
+   :class="{'highlight': totalCount > 0}"
+   .logo                              
+       width: 100%
+       height: 100%
+       border-radius: 50%
+       text-align: center
+       background: $color-dark-grey
+       &.highlight
+       	background-color $c-blue              
+           .icon-shopping_cart
+               line-height: 44px
+               font-size: $fontsize-large-xxx
+               color: $color-light-grey
+           &.highlight
+               color $c-white
+   2、根据总金额与最低起送费关系
+   :class="payDescClass"
+    .pay
+   line-height 44px
+       text-align center
+       font-weight 700
+       font-size $fontsize-small
+       background-color $color-dark-grey
+       padding 0 5px
+       // 是否满足支付条件
+       &.not-enough
+      		background: $color-dark-grey
+       &.enough
+       background: $c-green
+       	color: $c-white
+   ```
+
+4. js
+
+   ```js
+    // 总价格
+               totalPrice() {
+                   let total = 0
+                   this.selectedFoods.forEach((food) => {
+                       total += food.count * food.price
+                   })
+                   return total
+               },
+               // 总数量
+               totalCount() {
+                   let count = 0
+                   this.selectedFoods.forEach((food) => {
+                     count += food.count  
+                   })
+                   return count
+               },
+               // 距离可购买描述
+               payDesc(){
+                   if(this.totalPrice === 0){
+                       return `￥${this.minPrice}元起送`
+                   }else if(this.totalPrice < this.minPrice){
+                       let diff = this.minPrice - this.totalPrice
+                       return `还差${diff}元起送`
+                   }else{
+                       return `去结算`
+                   }
+               },
+               // 可购买样式
+               payDescClass(){
+                   if(!this.totalPrice || this.totalPrice < this.minPrice){
+                       return 'not-enough'
+                   }else{
+                       return 'enough'
+                   }
+               }
    ```
 
 
