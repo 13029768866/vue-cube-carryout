@@ -110,17 +110,17 @@
                 return this.data.seller
             },
             //  通过food的count属性判断是否被选中
-            selectedFoods(){
-                let res = []
-                this.goods.forEach((good)=>{
-                    good.foods.forEach((food) => {
-                        if(food.count){
-                            res.push(food)
-                        }
-                    })
-                })
-                return res
-            }
+           selectedFoods(){
+               let res = []
+               this.goods.forEach((good) => {
+                   good.foods.forEach((food) => {
+                       if(food.count){
+                           res.push(food)
+                       }
+                   })
+               })
+               return res;
+           }           
         }
     }
 </script>

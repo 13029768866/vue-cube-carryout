@@ -360,5 +360,22 @@ mask类型组件挂载到body
 
 ### shop-cart 与 cart-control联动
 
-1. 
+1. 通过goods组件获取选中选中食物列表
+
+   ```js
+   computed:{
+       selectedFoods(){
+                   let res = []
+                   this.goods.forEach((good)=>{
+                       good.foods.forEach((food) => {
+                           if(food.count){
+                               res.push(food)
+                           }
+                       })
+                   })
+                   return res
+               }
+   }
+   ```
+
 
