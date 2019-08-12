@@ -38,7 +38,10 @@
                                 </div>
                             </div>
                               <div class="cart-control-wrapper">
-                                <cart-control :food="food"></cart-control>
+                                <cart-control 
+                                    :food="food"
+                                    @increment = 'onIncrement'
+                                ></cart-control>
                             </div>
                         </li>
                     </ul>
@@ -49,6 +52,7 @@
         <div class="shop-cart-wrapper">
             <shop-cart
                     ref = 'shopCart' 
+                    :selectedFoods = 'selectedFoods'
                     :delivery-price = 'seller.deliveryPrice'
                     :min-price = 'seller.minPrice'
             ></shop-cart>
@@ -87,11 +91,16 @@
             }
         },
         methods:{
+            // 获取goods相关数据
             fetch(){
                 getGoods().then((goods)=> {                    
                     this.goods = goods.data
                     console.log(this.goods)
                 })
+            },
+            // 添加食物执行的方法
+            onIncrement(target){
+                console.log(target)
             }
         },
         computed: {
@@ -99,6 +108,18 @@
             seller(){
                 // console.log(this.data)
                 return this.data.seller
+            },
+            //  通过food的count属性判断是否被选中
+            selectedFoods(){
+                let res = []
+                this.goods.forEach((good)=>{
+                    good.foods.forEach((food) => {
+                        if(food.count){
+                            res.push(food)
+                        }
+                    })
+                })
+                return res
             }
         }
     }

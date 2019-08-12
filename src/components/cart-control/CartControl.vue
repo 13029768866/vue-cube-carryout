@@ -3,32 +3,48 @@
         <!-- move过渡动画 -->
         <transition name='move'>
             <!-- 减少按钮 -->
-            <div class="cart-decrement" v-show='count' @click='decrement'>
+            <div class="cart-decrement" v-show='this.food.count' @click='decrement'>
                 <span class="inner icon-remove_circle_outline"></span> 
             </div>
         </transition>        
         <!-- 食物数量 -->
-        <div class="cart-count" v-show="count">{{count}}</div>
+        <div class="cart-count" v-show="this.food.count">{{this.food.count}}</div>
         <!-- 增加按钮 -->
         <div class="cart-increment icon-add_circle" @click ='increment'></div>
     </div>
 </template>
 
 <script>
+    // 设置常量
+    const EVENT_INCREMENT = 'increment'
     export default {
         name: 'CartControl',
         data(){
-            return {
-                count: 0
+           return {
+
+           }
+        },
+        props:{
+            food:{
+                type: Object,
+                dafault(){
+                    return {};
+                }
             }
         },
         methods: {
             // 增加
-            increment(){
-                this.count++                
+            increment(event){
+                // 如果存在count属性增加，没有添加其count属性，并且val为1                
+               !this.food.count? this.$set(this.food,'count',1) :this.food.count++; 
+                // 变化通知购物车
+                this.$emit(EVENT_INCREMENT,event.target)   
             },
+            // 减少
             decrement(){
-                this.count--
+                if(this.food.count){
+                    this.food.count--
+                }
             }
         }
     }

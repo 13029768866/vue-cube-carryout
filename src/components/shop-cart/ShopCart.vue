@@ -4,8 +4,14 @@
             <div class="content-left">
                 <!-- 图标 -->
                 <div class="logo-wrapper">
-                    <div class="logo">
-                        <i class="icon-shopping_cart"></i>
+                    <div 
+                        class="logo"
+                        :class="{'highlight': totalCount > 0}"
+                    >
+                        <i 
+                            class="icon-shopping_cart"
+                            :class="{'highlight': totalCount > 0}"
+                        ></i>
                     </div>
                 </div>
                 <!-- 价格 -->
@@ -14,7 +20,10 @@
                 <div class="desc">另需配送费{{deliveryPrice}}元</div>
             </div>
             <div class="content-right">
-                <div class="pay">{{payDesc}}</div>
+                <div 
+                    class="pay"
+                    :class="payDescClass"
+                >{{payDesc}}</div>
             </div>
         </div>
     </div>
@@ -25,7 +34,7 @@
         name: 'ShopCart',
         props:{   
             //  选中的食物   
-            selectFoods:{
+            selectedFoods:{
                 type: Array,
                 default(){
                     return []
@@ -46,7 +55,7 @@
             // 总价格
             totalPrice() {
                 let total = 0
-                this.selectFoods.forEach((food) => {
+                this.selectedFoods.forEach((food) => {
                     total += food.count * food.price
                 })
                 return total
@@ -54,7 +63,7 @@
             // 总数量
             totalCount() {
                 let count = 0
-                this.selectFood.forEach((food) => {
+                this.selectedFoods.forEach((food) => {
                   count += food.count  
                 })
                 return count
@@ -114,11 +123,15 @@
                     height: 100%
                     border-radius: 50%
                     text-align: center
-                    background: $color-dark-grey                   
+                    background: $color-dark-grey
+                    &.highlight
+                        background-color $c-blue              
                     .icon-shopping_cart
                         line-height: 44px
                         font-size: $fontsize-large-xxx
                         color: $color-light-grey
+                        &.highlight
+                            color $c-white
             // 价格
             .price
                 display: inline-block
@@ -147,4 +160,10 @@
                 font-size $fontsize-small
                 background-color $color-dark-grey
                 padding 0 5px
+                // 是否满足支付条件
+                &.not-enough
+                    background: $color-dark-grey
+                &.enough
+                    background: $c-green
+                    color: $c-white
 </style>
