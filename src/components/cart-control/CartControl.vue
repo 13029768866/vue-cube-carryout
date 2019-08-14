@@ -39,10 +39,11 @@
         methods: {
             // 增加
             increment(event){
-                // 如果存在count属性增加，没有添加其count属性，并且val为1                
+                // 如果存在count属性增加，没有添加其count属性，并且val为1   
+                console.log(this.food)             
                !this.food.count? this.$set(this.food,'count',1) :this.food.count++; 
-                // 变化通知购物车
-                // this.$emit(EVENT_INCREMENT,event.target)
+                // 变化通知购物车触发事件的元素
+                this.$emit(EVENT_INCREMENT,event.target)
             },
             // 减少
             decrement(){

@@ -458,7 +458,54 @@ mask类型组件挂载到body
 
 ### 优化--小球动画
 
-
+```
+// 改变小球显示状态，并赋值元素位置
+            drop(el){
+               for(let i =0; i< this.balls.length;i++){
+                   const ball = this.balls[i]
+                  //  判断小球的状态
+                   if(!ball.show){
+                    ball.show = true
+                    ball.el  = el
+                    // 存入正在运动数组
+                    this.dropingBalls.push(ball)
+                    return
+                }
+               }
+            },
+            beforeDrop(el){
+                // 获取正在运动的最后一个
+                const ball = this.dropingBalls[this.dropingBalls.length - 1]
+                // 通过getBoundingClientRect可以获取到距离视口的top，left，bottom，right
+                const rect = ball.el.getBoundingClientRect()
+                // 获取距离小球的垂直，水平位移,(右正下正)
+                const x = rect.left - 32
+                const y = -(window.innerHeight - rect.top - 22)
+                // 给小球赋值,定位到点击元素
+                // 外层执行y,内层x，合成抛物线
+                el.style.display = ''
+                el.style.transfrom = el.style.webkitTransform = `translate3d(0,${y}px,0)`
+                const inner = el.getElementsByClassName('inner-hook')[0]
+                inner.style.transform = inner.style.webkitTransform = `translate3d(${x}px,0,0)`
+            },
+            dropping(el,done){
+                // 触发重绘,回到原来位置
+                this._reflow = document.body.offsetHeight
+                el.style.transform = el.style.webkitTransform = `translate3d(0,0,0)`
+                const inner = el.getElementsByClassName('inner-hook')[0]
+                inner.style.transform = inner.style.webkitTransform = `translate3d(0,0,0)`
+                // 通知触发afterDrop,done是可选
+                el.addEventListener('transitionend', done)
+            },
+            afterDrop(el){
+                // 动画完成，从正在执行动画前面取出，还原状态
+                const ball = this.dropingBalls.shift()
+                if (ball) {
+                    ball.show = false
+                    el.style.display = 'none'
+                }
+            }
+```
 
 
 

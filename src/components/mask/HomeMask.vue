@@ -5,10 +5,10 @@
                 <!-- 星级 -->
                 <h1 class="name">{{seller.name}}</h1>
                 <div class="star-wrapper">
-                    <star 
+                    <wzj-star 
                         :size = 48
                         :score = seller.score
-                    ></star>
+                    ></wzj-star>
                 </div>
                 <!-- 优惠信息 -->
                 <div class="title">
@@ -42,14 +42,14 @@
 
 <script>
     import SupportIco from 'components/support-ico/support-ico'
-    import Star from 'components/star/Star'
+    // import Star from 'components/star/Star'
 
 
     export default {
         name: 'HomeMask',
         components:{
-            SupportIco,
-            Star
+            SupportIco
+            // Star
         },
         props:{
             seller: {

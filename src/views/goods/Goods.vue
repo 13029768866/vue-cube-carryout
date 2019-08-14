@@ -3,11 +3,35 @@
         <div class="scroll-nav-wrapper">
             <!-- 分类侧边栏 -->
             <cube-scroll-nav
-                :side=true
+                :side= true
                 :data=" goods"
                 :options="scrollOptions"
                 v-if="goods.length"
             >
+                <template slot="bar" slot-scope="props">
+                    <cube-scroll-nav-bar
+                        direction="vertical"
+                        :labels="props.labels"
+                        :txts="barParams"
+                        :current="props.current"
+                    >
+                        <!-- 作用域插槽修改样式 -->
+                        <template slot-scope="params">
+                            <div class="text">
+                                <support-ico
+                                    v-if="params.txt.type>=1"
+                                    :size=3
+                                    :type="params.txt.type"
+                                ></support-ico>
+                                <span>{{params.txt.name}}</span>
+                                <!-- params.txt是构造的barParams的每一项 -->
+                                <span class="num" v-if='params.txt.count'>                                
+                                    <bubble :num="params.txt.count"></bubble>
+                                </span>
+                            </div>
+                        </template>
+                    </cube-scroll-nav-bar>
+                </template>
                 <!-- 对应展示内容区域 -->
                 <cube-scroll-nav-panel
                     v-for='good in goods'
@@ -63,12 +87,16 @@
 <script>
     import { getGoods } from 'api'
     import ShopCart from 'components/shop-cart/ShopCart'
+    import SupportIco from 'components/support-ico/support-ico'
+    import Bubble from 'components/bubble/Bubble'
     import CartControl from 'components/cart-control/CartControl'
     export default {
         name: 'Goods',
         components: {
             ShopCart,
-            CartControl
+            CartControl,
+            SupportIco,
+            Bubble
         },
         props:{
             data:{
@@ -98,9 +126,10 @@
                     console.log(this.goods)
                 })
             },
-            // 添加食物执行的方法
+            // 接收添加按钮传递的元素获取位置调用shop-cart的drop方法
             onIncrement(target){
-                console.log(target)
+                // console.log(target)
+                this.$refs.shopCart.drop(target)
             }
         },
         computed: {
@@ -120,7 +149,25 @@
                    })
                })
                return res;
-           }           
+           },
+           // 设置自定义navBar参数
+           barParams(){
+               let res = []
+               this.goods.forEach(good => {
+                // 解构出需要的参数
+                const {type, name ,foods} = good
+                let count = 0
+                foods.forEach(food => {
+                    count += food.count || 0
+                }) 
+                res.push({
+                    type,
+                    name,
+                    count
+                })
+               })
+               return res
+           }         
         }
     }
 </script>
@@ -153,6 +200,17 @@
             line-height: 14px
             font-size: $fontsize-small
             background: $bgc-aside
+            .text
+                flex: 1
+                position: relative
+            .num
+                position: absolute
+                right: -8px
+                top: -10px
+            .support-ico
+                display: inline-block
+                vertical-align: top
+                margin-right: 4px
         >>> .cube-scroll-nav-bar-item_active
             background: $c-white
             color: $c-red

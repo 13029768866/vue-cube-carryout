@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <top-header :seller = seller></top-header>
+    <wzj-header :seller = seller></wzj-header>
       <div class="tab-wrapper">
          <tab :tabs = tabs></tab>
       </div>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import TopHeader from 'components/header/TopHeader'
+
 import Tab from 'components/tab/Tab'
 import Goods from 'views/goods/Goods'
 import Ratings from 'views/ratings/Ratings'
@@ -18,7 +18,6 @@ import { getSeller } from 'api'
 export default {
   name: 'app',
   components:{
-    TopHeader,
     Tab
   },
   data(){
@@ -30,7 +29,6 @@ export default {
     getSeller().then(res => {     
       this.seller = res.data
       // console.log(this.seller);
-      
     })
   },
   computed: {

@@ -28,13 +28,38 @@
                     class="pay"
                     :class="payDescClass"
                 >{{payDesc}}</div>
-            </div>
+            </div>                        
+        </div>
+        <!-- 小球动画容器 -->
+        <div class="ball-wrapper">
+            <div v-for="(ball,index) in balls" :key='index'>
+                <transition
+                    @before-enter = 'beforeDrop'
+                    @enter = 'dropping'
+                    @after-enter = 'afterDrop'
+                >
+                    <div class="ball" v-show='ball.show'>
+                        <div class="inner inner-hook">
+                        </div>
+                    </div>
+                </transition>
+            </div>        
         </div>
     </div>
 </template>
 
 <script>
     import Bubble from 'components/bubble/Bubble'
+    // 创建带有显示状态的小球
+    const BALL_LEN = 10
+    function createBalls(){
+        let balls = []
+        for(let i = 0;i<BALL_LEN; i++){
+            balls.push({show: false})
+        }
+        // console.log(balls)
+        return balls
+    }
 
     export default {
         name: 'ShopCart',
@@ -57,8 +82,62 @@
                 default: 0
             }
         },
+        data(){
+            return {
+                // 所有小球
+                balls: createBalls()
+            }
+        },
         components:{
             Bubble
+        },
+        created(){
+            // 运动状态中小球数组
+            this.dropingBalls = []
+        },
+        methods:{
+            // 根据小球状态分类,存储位置信息
+            drop(el){
+                for(let i = 0; i < this.balls.length; i++){
+                    const ball = this.balls[i]
+                    if(!ball.show){
+                        ball.show = true
+                        ball.el = el
+                        this.dropingBalls.push(ball)
+                        return
+                    }
+                }
+            },
+            beforeDrop(el){
+                // 获取运动状态的最后一个,通过getBoundingClientRect获取触发元素位于视口中的位置
+                const ball = this.dropingBalls[this.dropingBalls.length - 1]
+                const rect = ball.el.getBoundingClientRect()
+                // 获取小球距离触发元素位置
+                const x  = rect.left - 32
+                const y = -(window.innerHeight - rect.top - 22)
+                // 通过translate3d使小球位置到触发元素位置
+                el.style.display = ''
+                el.style.transform = el.style.webkitTransform = `translate3d(0,${y}px,0)`
+                const inner = el.getElementsByClassName('inner-hook')[0]
+                inner.style.transform = inner.style.webkitTransform = `translate3d(${x}px,0,0)`
+            },
+            dropping(el,done){
+                // 必须触发重绘,否则动画不会执行
+                this._reflow = document.body.offsetHeight
+                // 执行动画回到原来位置
+                el.style.transform = el.style.webkitTransform = `translate3d(0,0,0)`
+                const inner = el.getElementsByClassName('inner-hook')[0]
+                inner.style.transform = inner.style.webkitTransform = `translate3d(0,0,0)`
+                // 监听transitionend,执行回调
+                el.addEventListener('transitionend',done)
+            },
+            afterDrop(el){
+                const ball = this.dropingBalls.shift()
+                if(ball.show){
+                    ball.show = false
+                    el.style.display ='none'
+                }
+            }        
         },
         computed: {
             // 总价格
@@ -181,4 +260,17 @@
                 &.enough
                     background: $c-green
                     color: $c-white
+    .ball-wrapper
+        .ball
+            position fixed
+            left 32px
+            bottom 22px
+            z-index 200
+            transition: all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
+            .inner
+                width: 16px
+                height: 16px
+                border-radius: 50%
+                background: $c-blue
+                transition: all 0.4s linear
 </style>
