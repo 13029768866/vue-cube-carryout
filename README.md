@@ -18,7 +18,7 @@ mask类型组件挂载到body
 
 ## icon组件
 
-1. 参数
+1. 参数 
 
    ```js
    size: 控制图标大小(Number)
