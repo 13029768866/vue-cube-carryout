@@ -1,4 +1,4 @@
-# 插件形式加载cube
+# 插件形式加载cube 
 
 ```
 vue add cube-ui
@@ -16,7 +16,7 @@ mask类型组件挂载到body
 
 # 二、组件
 
-## icon组件
+## icon组件 
 
 1. 参数 
 
