@@ -22,7 +22,7 @@ mask类型组件挂载到body
 
    ```js
    size: 控制图标大小(Number)
-   type： 控制图片类型(Number)
+   type： 控制图片类型(Number)  
    ```
 
 2.  css
