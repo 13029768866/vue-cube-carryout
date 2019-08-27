@@ -1,6 +1,6 @@
 <template>
     <div class="shopcart">        
-        <div class="content">         
+        <div class="content" @click="toggleList">         
             <div class="content-left">
                 <!-- 图标 -->
                 <div class="logo-wrapper">
@@ -94,6 +94,8 @@
         created(){
             // 运动状态中小球数组
             this.dropingBalls = []
+            // 购物车清单列表标识
+            this.cartListFlag = true
         },
         methods:{
             // 根据小球状态分类,存储位置信息
@@ -137,7 +139,35 @@
                     ball.show = false
                     el.style.display ='none'
                 }
-            }        
+            },
+            toggleList(){
+                if(this.cartListFlag){
+                    if(!this.totalCount){
+                        return
+                    }
+                    this.cartListFlag = false
+                    this._showShopCartList()
+                }else{
+                    this.cartListFlag = true
+                    this._hideShopCartList()
+                }
+            },
+            _showShopCartList(){
+               this.shopCartListComp = this.shopCartListComp || this.$createShopCartList({
+                    $props:{
+                         selectedFoods: 'selectedFoods'
+                    },
+                    $events: {
+                        hide: () => {
+                            this.cartListFlag = true
+                        }
+                    }
+                })
+                this.shopCartListComp.show()
+            },
+            _hideShopCartList(){
+                this.shopCartListComp.hide()
+            }  
         },
         computed: {
             // 总价格

@@ -33,6 +33,7 @@ module.exports = {
       .set('assets', resolve('assets'))
       .set('http', resolve('http'))
       .set('api', resolve('api'))
+      .set('utils', resolve('utils'))
       .end();
   },
   devServer: {

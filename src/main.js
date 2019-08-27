@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import './cube-ui'
 import App from './App.vue'
-import '@/utils/mask'
-import '@/utils/autoRegister'
+import 'utils/cubeApiRegister'
+import 'utils/autoRegister'
 
 // 引入基础样式
 import 'assets/stylus/index.styl'
