@@ -80,12 +80,18 @@
             minPrice: {
                 type: Number,
                 default: 0
+            },
+            // 购物车shopCartSticky折叠状态
+            fold: {
+                type: Boolean,
+                default: true
             }
         },
         data(){
             return {
                 // 所有小球
-                balls: createBalls()
+                balls: createBalls(),
+                cartListFlag: this.fold
             }
         },
         components:{
@@ -93,9 +99,7 @@
         },
         created(){
             // 运动状态中小球数组
-            this.dropingBalls = []
-            // 购物车清单列表标识
-            this.cartListFlag = true
+            this.dropingBalls = []         
         },
         methods:{
             // 根据小球状态分类,存储位置信息
@@ -147,6 +151,7 @@
                     }
                     this.cartListFlag = false
                     this._showShopCartList()
+                    this._showShopCartSticky()
                 }else{
                     this.cartListFlag = true
                     this._hideShopCartList()
@@ -155,7 +160,7 @@
             _showShopCartList(){
                this.shopCartListComp = this.shopCartListComp || this.$createShopCartList({
                     $props:{
-                         selectedFoods: 'selectedFoods'
+                         selectedFoods: 'selectedFoods'                         
                     },
                     $events: {
                         hide: () => {
@@ -164,6 +169,17 @@
                     }
                 })
                 this.shopCartListComp.show()
+            },
+            _showShopCartSticky(){                
+                this.shopCartStickyComp = this.shopCartStickyComp || this.$createShopCartSticky({
+                    $props: {
+                        selectedFoods: 'selectedFoods',
+                        deliveryPrice: 'deliveryPrice',
+                        minPrice: 'minPrice',
+                        cartListFlag: 'cartListFlag'
+                    }
+                })
+                this.shopCartStickyComp.show()
             },
             _hideShopCartList(){
                 this.shopCartListComp.hide()
