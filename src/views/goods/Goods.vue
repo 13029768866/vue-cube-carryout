@@ -80,7 +80,7 @@
                     :delivery-price = 'seller.deliveryPrice'
                     :min-price = 'seller.minPrice'
             ></shop-cart>
-        </div>
+        </div>     
     </div>
 </template>
 
@@ -121,10 +121,13 @@
         methods:{
             // 获取goods相关数据
             fetch(){
-                getGoods().then((goods)=> {                    
+                if(!this.fetched){
+                    this.fetched = true
+                    getGoods().then((goods)=> {                    
                     this.goods = goods.data
-                    console.log(this.goods)
+                    // console.log(this.goods)
                 })
+                }            
             },
             // 接收添加按钮传递的元素获取位置调用shop-cart的drop方法
             onIncrement(target){

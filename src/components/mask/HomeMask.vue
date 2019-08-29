@@ -32,7 +32,7 @@
                     <p class="content">{{seller.bulletin}}</p>
                 </div>
                 <!-- 关闭按钮 -->
-                <div class="mask-close" @click="maskHide">
+                <div class="mask-close" @click="hide">
                     <i class="icon-close"></i>
                 </div>
             </div>
@@ -42,14 +42,14 @@
 
 <script>
     import SupportIco from 'components/support-ico/support-ico'
-    // import Star from 'components/star/Star'
+    import popupMixin from 'common/mixins/popup'
 
 
     export default {
         name: 'HomeMask',
+        mixins: [popupMixin],
         components:{
             SupportIco
-            // Star
         },
         props:{
             seller: {
@@ -58,20 +58,8 @@
                     return {}
                 }
             }
-        },   
-        data(){
-            return {
-                visible: false
-            }
-        },
-        methods: {
-            maskShow(){
-                this.visible =true
-            },
-            maskHide(){
-                this.visible = false
-            }
-        }
+        }  
+      
         
     }
 </script>

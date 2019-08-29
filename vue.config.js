@@ -34,6 +34,7 @@ module.exports = {
       .set('http', resolve('http'))
       .set('api', resolve('api'))
       .set('utils', resolve('utils'))
+      .set('common', resolve('common'))
       .end();
   },
   devServer: {

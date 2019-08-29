@@ -27,6 +27,7 @@
                 <div 
                     class="pay"
                     :class="payDescClass"
+                    @click="pay"
                 >{{payDesc}}</div>
             </div>                        
         </div>
@@ -50,6 +51,7 @@
 
 <script>
     import Bubble from 'components/bubble/Bubble'
+
     // 创建带有显示状态的小球
     const BALL_LEN = 10
     function createBalls(){
@@ -80,18 +82,13 @@
             minPrice: {
                 type: Number,
                 default: 0
-            },
-            // 购物车shopCartSticky折叠状态
-            fold: {
-                type: Boolean,
-                default: true
             }
+            
         },
         data(){
             return {
                 // 所有小球
-                balls: createBalls(),
-                cartListFlag: this.fold
+                balls: createBalls()
             }
         },
         components:{
@@ -99,7 +96,8 @@
         },
         created(){
             // 运动状态中小球数组
-            this.dropingBalls = []         
+            this.dropingBalls = [] 
+            this.cartListFlag = true        
         },
         methods:{
             // 根据小球状态分类,存储位置信息
@@ -144,6 +142,7 @@
                     el.style.display ='none'
                 }
             },
+            // 切换购物车列表
             toggleList(){
                 if(this.cartListFlag){
                     if(!this.totalCount){
@@ -151,18 +150,17 @@
                     }
                     this.cartListFlag = false
                     this._showShopCartList()
-                    this._showShopCartSticky()
                 }else{
                     this.cartListFlag = true
                     this._hideShopCartList()
                 }
             },
             _showShopCartList(){
-               this.shopCartListComp = this.shopCartListComp || this.$createShopCartList({
+                this.shopCartListComp = this.shopCartListComp || this.$createShopCartList({
                     $props:{
-                         selectedFoods: 'selectedFoods'                         
+                       selectedFoods: 'selectedFoods' 
                     },
-                    $events: {
+                    $events:{
                         hide: () => {
                             this.cartListFlag = true
                         }
@@ -170,20 +168,21 @@
                 })
                 this.shopCartListComp.show()
             },
-            _showShopCartSticky(){                
-                this.shopCartStickyComp = this.shopCartStickyComp || this.$createShopCartSticky({
-                    $props: {
-                        selectedFoods: 'selectedFoods',
-                        deliveryPrice: 'deliveryPrice',
-                        minPrice: 'minPrice',
-                        cartListFlag: 'cartListFlag'
-                    }
-                })
-                this.shopCartStickyComp.show()
-            },
             _hideShopCartList(){
                 this.shopCartListComp.hide()
-            }  
+            },
+            // 支付
+            pay(e){            
+                if(this.totalPrice < this.minPrice){
+                    return
+                }
+                this.dialogComp = this.$createDialog({
+                    title: '支付',
+                    content: `您需要支付${this.totalPrice}元`
+                })
+                this.dialogComp.show()
+                e.stopPropagation()
+            }
         },
         computed: {
             // 总价格
@@ -222,6 +221,13 @@
                 }
             }
 
+        },
+        watch: {
+            totalCount(newVal){
+                if(!this.cartListFlag && !newVal){
+                    this._hideShopCartList()
+                }
+            }        
         }
     }
 </script>
@@ -230,7 +236,12 @@
  @import "~assets/stylus/_mixin"
  @import "~assets/stylus/_vars"
 
+// 购物车
 .shopcart
+    position absolute
+    bottom 0
+    width 100vw
+    z-index 999
     height 44px
     .content
         display flex

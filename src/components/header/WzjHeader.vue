@@ -59,7 +59,7 @@
                         seller : 'seller'
                     }
                 })
-                this.HomeMaskComp.maskShow()
+                this.HomeMaskComp.show()
             }
         },
         components: {

@@ -14,7 +14,7 @@
         <div v-if="visible">
           <div class="list-header">
             <h1 class="title">购物车</h1>
-            <span class="empty">清空</span>
+            <span class="empty" @click="empty">清空</span>
           </div>
           <cube-scroll class="list-content" ref="listContent">
             <ul>
@@ -42,11 +42,14 @@
 
 <script>
     import CartControl from 'components/cart-control/CartControl'
+    import popupMixin from 'common/mixins/popup'
 
-    const EVENT_HIDE = 'hide'
+
+    // const EVENT_HIDE = 'hide'
 
     export default {
         name: 'ShopCartList',
+        mixins: [popupMixin],
         components: {
             CartControl           
         },
@@ -58,21 +61,26 @@
                 }
             }
         },
-        data(){
-            return {
-                visible: false
-            }
-        },
         methods: {
-            show() {
-                this.visible = true
-            },
-            hide(){
-                this.visible = false
-                this.$emit(EVENT_HIDE)
-            },
+           
             maskClick() {
                 this.hide()
+            },
+            // 清空购物车
+            empty(){
+              this.$createDialog({
+                type: 'confirm',
+                content: '您确定要清空购物车吗?',
+                $events: { 
+                  confirm: () => {
+                    this.selectedFoods.forEach(food => {
+                      food.count = 0
+                    });
+                    this.hide()
+                  }
+                }
+              }).show()
+              
             }
         }
     }
@@ -83,7 +91,7 @@
  @import "~assets/stylus/_vars"
 
   .cube-shop-cart-list
-    bottom: 48px
+    bottom: 54px  
     &.fade-enter, &.fade-leave-active
       opacity: 0
     &.fade-enter-active, &.fade-leave-active
