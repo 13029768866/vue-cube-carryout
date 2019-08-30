@@ -42,6 +42,7 @@
                     <!-- 默认插槽 -->
                     <ul>
                         <li
+                            @click="selectedFood(food)"
                             v-for="food in good.foods"
                             :key = 'food.name'
                             class="food-item"
@@ -109,7 +110,7 @@
         data(){
             return {
                 goods: [],
-                selecFood: [],
+                selectFood: {},
                 // 根据better-scroll配置
                 scrollOptions: {
                     // 防止点击事件触发两次
@@ -133,6 +134,31 @@
             onIncrement(target){
                 // console.log(target)
                 this.$refs.shopCart.drop(target)
+            },
+            selectedFood(food){               
+                this.selectdFood = food
+                this._showFoodDetail()
+            },
+            // 使用同一层级
+            _showFoodDetail(){
+                this.FoodDetailComp =   this.$createFoodDetail({
+                    $props: {
+                        food: 'selectdFood'
+                    },
+                    $events:{
+                        increment: (el) => {
+                          this.$createShopCart({
+                              $props:{
+                                  selectedFoods : 'selectedFoods',
+                                    deliveryPrice : this.seller.deliveryPrice,
+                                    minPrice : this.seller.minPrice
+                              }
+                          }).drop(el)
+                        }
+                    }
+                   
+                })
+                this.FoodDetailComp.show()
             }
         },
         computed: {
@@ -183,6 +209,8 @@
     position relative
     text-align left 
     height 100%
+    >>> .cube-sticky
+        padding-bottom 6px
     .scroll-nav-wrapper
         position absolute
         width 100%
