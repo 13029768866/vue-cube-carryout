@@ -1,0 +1,32 @@
+
+
+export default {
+  data() {
+    return {
+      selectType: 2,
+      onlyContent: true
+    }
+  },
+  computed: {
+    computedRatings() {
+      let ret = []
+      this.ratings.forEach((rating) => {
+        if (this.onlyContent && !rating.text) {
+          return
+        }
+        if (this.selectType === 2 || rating.rateType === this.selectType) {
+          ret.push(rating)
+        }
+      })
+      return ret
+    }
+  },
+  methods: {
+    onSelect(type) {
+      this.selectType = type
+    },
+    onToggle() {
+      this.onlyContent = !this.onlyContent
+    }
+  }
+}

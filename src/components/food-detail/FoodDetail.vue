@@ -1,9 +1,7 @@
 <template>
   <transition
-    name="move"
-   
-  >
-    
+    name="move"  
+  >  
     <div  class="food" v-show="visible">
       <cube-scroll ref="scroll">
         <div class="food-content">
@@ -46,10 +44,13 @@
             <h1 class="title">商品评价</h1>
             <!-- 评价种类 -->
             <rating-select
+              :ratings="ratings"
               :selectType="selectType"
               :onlyContent="onlyContent"
               :desc="desc"
-              :ratings="ratings">
+              @select='onSelectType'
+              @toggle ='onToggle'
+            >
             </rating-select>
             <!-- 评价内容区域 -->
             <div class="rating-wrapper">
@@ -97,6 +98,17 @@
         type: Object
       }
     },
+    data(){
+      return {
+        onlyContent: true,
+        selectType: 2,
+        desc: {
+            all: '全部',
+            positive: '推荐',
+            negative: '吐槽'
+        }
+      }
+    },
     components: {     
       Split,
       CartControl,
@@ -124,11 +136,29 @@
       // moment处理时间戳
       format(time){
         return moment(time).format('YYYY-MM-DD hh:mm')
+      },
+      onSelectType(type){
+        this.selectType = type
+      },
+      onToggle(){
+        this.onlyContent = !this.onlyContent
       }
     },
     computed: {
-      computedRatings(){
+      ratings(){
         return this.food.ratings
+      },
+      computedRatings(){
+        let res = []
+        this.ratings.map(rating => {
+          if(this.onlyContent && !rating.text){
+            return
+          }
+          if(this.selectType === 2 || this.selectType === rating.rateType){
+            res.push(rating)
+          }
+        })
+        return res
       }
     }
   }
