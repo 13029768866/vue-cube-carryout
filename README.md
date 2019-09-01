@@ -27,7 +27,6 @@ vue-ele
 │    │    ├─ HEAD
 │    │    └─ refs
 │    ├─ objects
-│    │    ├─ 03
 │    │    ├─ 07
 │    │    ├─ 08
 │    │    ├─ 0c
