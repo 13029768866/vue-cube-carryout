@@ -25,7 +25,6 @@ vue-ele
 │    │    └─ exclude
 │    ├─ logs
 │    │    ├─ HEAD
-│    │    └─ refs
 │    ├─ objects
 │    │    ├─ 08
 │    │    ├─ 0c
