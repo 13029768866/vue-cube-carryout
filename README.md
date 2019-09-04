@@ -26,7 +26,6 @@ vue-ele
 │    ├─ logs
 │    │    ├─ HEAD
 │    ├─ objects
-│    │    ├─ 08
 │    │    ├─ 0c
 │    │    ├─ 0d
 │    │    ├─ 0f
