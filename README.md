@@ -22,7 +22,6 @@ vue-ele
 │    │    └─ update.sample
 │    ├─ index
 │    ├─ info
-│    │    └─ exclude
 │    ├─ logs
 │    │    ├─ HEAD
 │    ├─ objects
